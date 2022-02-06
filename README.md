@@ -1,5 +1,8 @@
 # flutter_audio
 
+- Edit android/build.gradle
+- change `ext.kotlin.version` to `1.4.21` or newer
+
 A new Flutter project.
 
 ## Getting Started
