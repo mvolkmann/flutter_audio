@@ -36,8 +36,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    setup();
     super.initState();
+    setup();
   }
 
   void setup() async {
@@ -77,18 +77,17 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     player.filePath,
-                    style: Theme.of(context).textTheme.headline3,
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _buildPlayButton(),
-                      _buildPauseButton(),
                       _buildStopButton(),
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(32),
+                    padding: const EdgeInsets.all(20),
                     child: LinearProgressIndicator(value: progress),
                   ),
                 ],
@@ -100,27 +99,15 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildPauseButton() {
-    var paused = state != PlayerState.PLAYING;
-    return IconButton(
-      icon: Icon(
-        Icons.pause,
-        color: paused ? Colors.grey : Colors.orange,
-        size: iconSize,
-      ),
-      onPressed: paused ? null : player.pause,
-    );
-  }
-
   Widget _buildPlayButton() {
     var playing = state == PlayerState.PLAYING;
     return IconButton(
       icon: Icon(
-        Icons.play_arrow,
-        color: playing ? Colors.green : Colors.grey,
+        playing ? Icons.pause : Icons.play_arrow,
+        color: playing ? Colors.orange : Colors.green,
         size: iconSize,
       ),
-      onPressed: playing ? null : player.play,
+      onPressed: playing ? player.pause : player.play,
     );
   }
 
@@ -129,7 +116,8 @@ class _HomeState extends State<Home> {
     return IconButton(
       icon: Icon(
         Icons.stop,
-        color: stopped ? Colors.grey : Colors.red,
+        //color: stopped ? Colors.grey : Colors.red,
+        color: Colors.red,
         size: iconSize,
       ),
       onPressed: stopped ? null : player.reset,
