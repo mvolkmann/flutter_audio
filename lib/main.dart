@@ -116,8 +116,7 @@ class _HomeState extends State<Home> {
     return IconButton(
       icon: Icon(
         Icons.stop,
-        //color: stopped ? Colors.grey : Colors.red,
-        color: Colors.red,
+        color: stopped ? Colors.grey : Colors.red,
         size: iconSize,
       ),
       onPressed: stopped ? null : player.reset,
