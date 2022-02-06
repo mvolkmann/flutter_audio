@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 
+extension ColumnExtension on Column {
+  /// Adds a SizedBox with a given height and no width
+  /// between all Widgets in the Column.
+  Column gap(double size) {
+    for (int i = children.length - 1; i > 0; i--) {
+      children.insert(i, SizedBox(height: size));
+    }
+    return this;
+  }
+}
+
+extension RowExtension on Row {
+  /// Adds a SizedBox with a given width and no height
+  /// between all Widgets in the Row.
+  Row gap(double size) {
+    for (int i = children.length - 1; i > 0; i--) {
+      children.insert(i, SizedBox(width: size));
+    }
+    return this;
+  }
+}
+
 extension WidgetExtension on Widget {
   Widget align([Alignment alignment = Alignment.centerLeft]) {
     return Container(alignment: alignment, child: this);
@@ -64,15 +86,6 @@ extension WidgetListExtension<Widget> on List<Widget> {
     }
     return this;
   }
-
-  /*
-  Row row() {
-    //TODO: Why does the next line give the following error?
-    //TODO: The argument type 'List<Widget>' can't be
-    //TODO: assigned to the parameter type 'List<Widget>'
-    return Row(children: this);
-  }
-  */
 
   /// Adds a SizedBox with the same width and height
   /// between all Widgets in the List.
