@@ -18,23 +18,21 @@ class AudioAssetPlayer {
   Future<void> sleep(int ms) => Future.delayed(Duration(milliseconds: ms));
 
   Future<void> init() async {
-    // Need to play immediatedly in order to get duration.
+    // We need to play the file in order to get its duration.
     _player = await AudioCache().play(filePath);
 
-    // Give audioplayers API time to get duration.
-    await sleep(200);
+    _player.onDurationChanged.listen((Duration duration) {
+      // Now that we have the duration, stop the player.
+      _player.stop();
+      _durationMs = duration.inMilliseconds;
+      print('audio_asset_player.dart: _durationMs = $_durationMs');
 
-    // The getDuration method returns int ms, not a Duration object.
-    _durationMs = await _player.getDuration();
+      _controller.add(0.0);
 
-    // Now that we have the duration, stop the player.
-    await _player.stop();
-
-    _controller.add(0.0);
-
-    //TODO: Does this work on iOS?
-    _subscription = _player.onAudioPositionChanged.listen(
-        (duration) => _controller.add(duration.inMilliseconds / _durationMs));
+      _subscription = _player.onAudioPositionChanged.listen((duration) {
+        _controller.add(duration.inMilliseconds / _durationMs);
+      });
+    });
   }
 
   // The three methods calls passed in a List to the wait method
