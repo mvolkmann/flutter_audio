@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './audio_player_widget.dart';
+import './extensions/widget_extensions.dart';
 
 void main() => runApp(
       MaterialApp(
@@ -20,7 +21,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Audio Demo')),
-      body: Center(child: AudioPlayerWidget(filePath)),
+      body: AudioPlayerWidget(filePath).padding(20),
     );
   }
 }

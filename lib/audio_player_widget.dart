@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import './audio_asset_player.dart';
+import './extensions/widget_extensions.dart';
 
 // This code is derived from the YouTube video at
 // https://www.youtube.com/watch?v=xyooeKm0xw8.
@@ -51,18 +52,20 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     return FutureBuilder(
       future: initFuture,
       builder: (context, snapshot) {
-        print('connectionState = ${snapshot.connectionState}');
+        // Initially snapshot.connectionState is ConnectionState.waiting.
         if (snapshot.connectionState != ConnectionState.done) {
           return Text('Loading ...');
         }
 
         return Card(
+          color: Colors.yellow[100],
           elevation: 3,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 player.filePath,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline6,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -71,37 +74,40 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                   _buildStopButton(),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: LinearProgressIndicator(value: progress),
-              ),
+              LinearProgressIndicator(value: progress),
             ],
-          ),
+          ).padding(10),
         );
       },
     );
   }
 
+  Widget _buildButton({
+    required Color color,
+    required IconData icon,
+    required VoidCallback? onPressed,
+  }) {
+    return IconButton(
+      icon: Icon(icon, color: color, size: iconSize),
+      onPressed: onPressed,
+      padding: const EdgeInsets.all(0),
+    );
+  }
+
   Widget _buildPlayButton() {
     var playing = state == PlayerState.PLAYING;
-    return IconButton(
-      icon: Icon(
-        playing ? Icons.pause : Icons.play_arrow,
-        color: playing ? Colors.orange : Colors.green,
-        size: iconSize,
-      ),
+    return _buildButton(
+      color: playing ? Colors.orange : Colors.green,
+      icon: playing ? Icons.pause : Icons.play_arrow,
       onPressed: playing ? player.pause : player.play,
     );
   }
 
   Widget _buildStopButton() {
     var stopped = state == PlayerState.STOPPED;
-    return IconButton(
-      icon: Icon(
-        Icons.stop,
-        color: stopped ? Colors.grey : Colors.red,
-        size: iconSize,
-      ),
+    return _buildButton(
+      color: stopped ? Colors.grey : Colors.red,
+      icon: Icons.stop,
       onPressed: stopped ? null : player.reset,
     );
   }

@@ -24,11 +24,9 @@ class AudioAssetPlayer {
     _player.onDurationChanged.listen((Duration duration) {
       // Now that we have the duration, stop the player.
       _player.stop();
+
       _durationMs = duration.inMilliseconds;
-      print('audio_asset_player.dart: _durationMs = $_durationMs');
-
       _controller.add(0.0);
-
       _subscription = _player.onAudioPositionChanged.listen((duration) {
         _controller.add(duration.inMilliseconds / _durationMs);
       });
