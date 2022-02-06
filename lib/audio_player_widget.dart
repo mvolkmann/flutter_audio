@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart' show PlayerState;
 import './audio_asset_player.dart';
@@ -19,7 +17,6 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   static const iconSize = 50.0;
 
   late final AudioAssetPlayer player;
-
   late final Future<void> initFuture;
 
   var progress = 0.0;
@@ -30,6 +27,12 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     super.initState();
     player = AudioAssetPlayer(widget.filePath);
     setup();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   void setup() async {
@@ -44,16 +47,11 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   }
 
   @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: initFuture,
       builder: (context, snapshot) {
+        print('connectionState = ${snapshot.connectionState}');
         if (snapshot.connectionState != ConnectionState.done) {
           return Text('Loading ...');
         }
