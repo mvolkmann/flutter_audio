@@ -25,7 +25,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   static const filePath = 'audio/ear_teebs_2.wav';
-  static const iconSize = 50;
+  static const iconSize = 50.0;
 
   final player = AudioAssetPlayer(filePath);
 
@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   Text(
-                    player.filename,
+                    player.filePath,
                     style: Theme.of(context).textTheme.headline3,
                   ),
                   Row(
@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildPauseButton() {
-    const paused = state != PlayerState.PLAYING;
+    var paused = state != PlayerState.PLAYING;
     return IconButton(
       icon: Icon(
         Icons.pause,
@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildPlayButton() {
-    const playing = state == PlayerState.PLAYING;
+    var playing = state == PlayerState.PLAYING;
     return IconButton(
       icon: Icon(
         Icons.play_arrow,
@@ -124,7 +124,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildStopButton() {
-    const stopped = state == PlayerState.STOPPED;
+    var stopped = state == PlayerState.STOPPED;
     return IconButton(
       icon: Icon(
         Icons.stop,
