@@ -11,22 +11,15 @@ void main() => runApp(
       ),
     );
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
+class Home extends StatelessWidget {
   static const filePath = 'audio/ear_teebs_2.wav';
+
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Audio Demo'),
-      ),
+      appBar: AppBar(title: Text('Audio Demo')),
       body: Center(child: AudioPlayerWidget(filePath)),
     );
   }
