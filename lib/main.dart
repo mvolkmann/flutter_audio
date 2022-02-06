@@ -29,25 +29,26 @@ class _HomeState extends State<Home> {
 
   final player = AudioAssetPlayer(filePath);
 
-  late final StreamSubscription progressSubscription;
-  late final StreamSubscription stateSubscription;
-  late final Future initFuture;
+  late final Future<void> initFuture;
 
   var progress = 0.0;
   var state = PlayerState.STOPPED;
 
   @override
   void initState() {
-    initFuture = player.init().then((_) {
-      progressSubscription = player.progressStream.listen((p) {
-        setState(() => progress = p);
-      });
-      stateSubscription = player.stateStream.listen((s) {
-        setState(() => state = s);
-      });
-    });
-
+    setup();
     super.initState();
+  }
+
+  void setup() async {
+    initFuture = player.init();
+    await initFuture;
+    player.progressStream.listen((p) {
+      setState(() => progress = p);
+    });
+    player.stateStream.listen((s) {
+      setState(() => state = s);
+    });
   }
 
   @override
