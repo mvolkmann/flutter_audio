@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 
+// This class provides a simplifying layer over the audioplayers library.
 class AudioAssetPlayer {
   final String filePath; // after "assets/"
   final _controller = StreamController<double>();
